@@ -1,0 +1,2984 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>akronymstudio — Web App Development</title>
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              display: ["Syne", "sans-serif"],
+              body: ["DM Sans", "sans-serif"],
+            },
+            colors: {
+              accent: "#00FF87",
+              accentDim: "#00cc6e",
+              dark: "#0a0a0a",
+              darkCard: "#111111",
+              darkBorder: "#1e1e1e",
+              lightBg: "#f5f5f0",
+              lightCard: "#ffffff",
+              lightBorder: "#e5e5e0",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "pulse-slow": "pulse 4s ease-in-out infinite",
+              "slide-up": "slideUp 0.7s ease forwards",
+              "fade-in": "fadeIn 0.8s ease forwards",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-12px)" },
+              },
+              slideUp: {
+                from: { opacity: "0", transform: "translateY(40px)" },
+                to: { opacity: "1", transform: "translateY(0)" },
+              },
+              fadeIn: {
+                from: { opacity: "0" },
+                to: { opacity: "1" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        --accent: #a855f7;
+        --accent-dim: #9333ea;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        transition:
+          background-color 0.3s ease,
+          color 0.3s ease;
+        overflow-x: hidden;
+      }
+
+      /* DARK THEME */
+      html.dark body {
+        background-color: #0a0a0a;
+        color: #e8e8e8;
+      }
+      html.dark .card-bg {
+        background: #111111;
+        border-color: #1e1e1e;
+      }
+      html.dark .nav-bg {
+        background: rgba(10, 10, 10, 0.85);
+        border-color: #1e1e1e;
+      }
+      html.dark .section-alt {
+        background: #0d0d0d;
+      }
+      html.dark .text-muted {
+        color: #888;
+      }
+      html.dark .tag-bg {
+        background: #1a1a1a;
+        color: #aaa;
+        border-color: #2a2a2a;
+      }
+      html.dark .hero-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      }
+      html.dark .input-field {
+        background: #151515;
+        border-color: #2a2a2a;
+        color: #e8e8e8;
+      }
+      html.dark .input-field:focus {
+        border-color: var(--accent);
+      }
+      html.dark .divider {
+        border-color: #1e1e1e;
+      }
+      html.dark .skill-bar-bg {
+        background: #1e1e1e;
+      }
+
+      /* LIGHT THEME */
+      html.light body {
+        background-color: #f5f5f0;
+        color: #111111;
+      }
+      html.light .card-bg {
+        background: #ffffff;
+        border-color: #e5e5e0;
+      }
+      html.light .nav-bg {
+        background: rgba(245, 245, 240, 0.88);
+        border-color: #e5e5e0;
+      }
+      html.light .section-alt {
+        background: #eeede8;
+      }
+      html.light .text-muted {
+        color: #777;
+      }
+      html.light .tag-bg {
+        background: #ebebeb;
+        color: #555;
+        border-color: #ddd;
+      }
+      html.light .hero-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+      }
+      html.light .input-field {
+        background: #fff;
+        border-color: #ddd;
+        color: #111;
+      }
+      html.light .input-field:focus {
+        border-color: #9333ea;
+      }
+      html.light .divider {
+        border-color: #e5e5e0;
+      }
+      html.light .skill-bar-bg {
+        background: #e5e5e0;
+      }
+
+      /* SHARED */
+      .accent {
+        color: var(--accent);
+      }
+      html.light .accent {
+        color: var(--accent-dim);
+      }
+      .accent-bg {
+        background-color: var(--accent);
+      }
+      html.light .accent-bg {
+        background-color: var(--accent-dim);
+      }
+
+      .nav-bg {
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+      }
+
+      /* Scrollbar */
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      html.dark ::-webkit-scrollbar-track {
+        background: #0a0a0a;
+      }
+      html.dark ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 2px;
+      }
+      html.light ::-webkit-scrollbar-track {
+        background: #f5f5f0;
+      }
+      html.light ::-webkit-scrollbar-thumb {
+        background: #ccc;
+        border-radius: 2px;
+      }
+
+      /* Marquee */
+      @keyframes marquee {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+      .marquee-track {
+        animation: marquee 22s linear infinite;
+      }
+      .marquee-track:hover {
+        animation-play-state: paused;
+      }
+
+      /* Gradient text */
+      .gradient-text {
+        background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      html.light .gradient-text {
+        background: linear-gradient(135deg, #9333ea 0%, #4f46e5 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Glow dot */
+      .glow-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+        box-shadow:
+          0 0 0 4px rgba(0, 255, 135, 0.15),
+          0 0 12px rgba(0, 255, 135, 0.4);
+        animation: pulse-glow 2s ease-in-out infinite;
+      }
+      html.light .glow-dot {
+        background: var(--accent);
+        box-shadow:
+          0 0 0 4px rgba(147, 51, 234, 0.18),
+          0 0 12px rgba(147, 51, 234, 0.45);
+      }
+      @keyframes pulse-glow {
+        0%,
+        100% {
+          box-shadow:
+            0 0 0 4px rgba(168, 85, 247, 0.18),
+            0 0 12px rgba(168, 85, 247, 0.45);
+        }
+        50% {
+          box-shadow:
+            0 0 0 8px rgba(168, 85, 247, 0.09),
+            0 0 24px rgba(168, 85, 247, 0.65);
+        }
+      }
+
+      /* Reveal animation */
+      .reveal {
+        opacity: 0;
+        transform: translateY(36px);
+        transition:
+          opacity 0.7s ease,
+          transform 0.7s ease;
+      }
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Input */
+      .input-field {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid;
+        border-radius: 10px;
+        outline: none;
+        font-family: "DM Sans", sans-serif;
+        font-size: 14px;
+        transition: border-color 0.2s;
+      }
+
+      /* Cursor blob */
+      #cursor-blob {
+        position: fixed;
+        width: 340px;
+        height: 340px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(0, 255, 135, 0.07) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        transition:
+          left 0.6s ease,
+          top 0.6s ease;
+        z-index: 0;
+      }
+      html.light #cursor-blob {
+        background: radial-gradient(
+          circle,
+          rgba(0, 204, 110, 0.05) 0%,
+          transparent 70%
+        );
+      }
+
+      /* Mobile menu */
+      #mobile-menu {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s ease;
+      }
+      #mobile-menu.open {
+        max-height: 500px;
+      }
+
+      /* Skill bar */
+      .skill-bar {
+        height: 4px;
+        border-radius: 99px;
+        position: relative;
+        overflow: hidden;
+      }
+      .skill-bar-fill {
+        height: 100%;
+        border-radius: 99px;
+        background: linear-gradient(90deg, #a855f7, #6366f1);
+        width: 0;
+        transition: width 1.2s ease;
+      }
+      html.light .skill-bar-fill {
+        background: linear-gradient(90deg, #9333ea, #4f46e5);
+      }
+
+      /* Project card hover */
+      .project-card {
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+      html.dark .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(168, 85, 247, 0.12);
+      }
+      html.light .project-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 20px 60px rgba(147, 51, 234, 0.12);
+      }
+
+      /* Service card */
+      .service-card {
+        border: 1px solid;
+        transition:
+          border-color 0.3s ease,
+          transform 0.3s ease;
+      }
+      html.dark .service-card {
+        border-color: #1e1e1e;
+      }
+      html.dark .service-card:hover {
+        border-color: rgba(168, 85, 247, 0.4);
+        transform: translateY(-4px);
+      }
+      html.light .service-card {
+        border-color: #e5e5e0;
+      }
+      html.light .service-card:hover {
+        border-color: rgba(147, 51, 234, 0.4);
+        transform: translateY(-4px);
+      }
+
+      /* Btn */
+      .btn-primary {
+        background: var(--accent);
+        color: #ffffff;
+        font-family: "Syne", sans-serif;
+        font-weight: 700;
+        border-radius: 10px;
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background 0.2s;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(168, 85, 247, 0.4);
+      }
+      html.light .btn-primary {
+        background: var(--accent-dim);
+      }
+      html.light .btn-primary:hover {
+        box-shadow: 0 8px 30px rgba(147, 51, 234, 0.4);
+      }
+
+      .btn-outline {
+        border: 1.5px solid;
+        font-family: "Syne", sans-serif;
+        font-weight: 600;
+        border-radius: 10px;
+        transition: all 0.2s;
+      }
+      html.dark .btn-outline {
+        border-color: #333;
+        color: #e8e8e8;
+      }
+      html.dark .btn-outline:hover {
+        border-color: #a855f7;
+        color: #a855f7;
+      }
+      html.light .btn-outline {
+        border-color: #ccc;
+        color: #333;
+      }
+      html.light .btn-outline:hover {
+        border-color: #9333ea;
+        color: #9333ea;
+      }
+
+      /* Nav link active */
+      .nav-link {
+        position: relative;
+        font-family: "DM Sans", sans-serif;
+        font-weight: 500;
+        font-size: 13px;
+        transition: color 0.2s;
+      }
+      html.dark .nav-link {
+        color: #888;
+      }
+      html.dark .nav-link:hover,
+      html.dark .nav-link.active {
+        color: #e8e8e8;
+      }
+      html.light .nav-link {
+        color: #888;
+      }
+      html.light .nav-link:hover,
+      html.light .nav-link.active {
+        color: #111;
+      }
+
+      /* Floating shapes */
+      .shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(80px);
+        pointer-events: none;
+        opacity: 0;
+        animation: shapeReveal 2s ease forwards;
+      }
+      @keyframes shapeReveal {
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Counter */
+      .counter {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+      }
+
+      /* Logo text */
+      .logo-text {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      /* Testimonial */
+      .testimonial-card {
+        border: 1px solid;
+      }
+      html.dark .testimonial-card {
+        border-color: #1e1e1e;
+      }
+      html.light .testimonial-card {
+        border-color: #e5e5e0;
+      }
+
+      /* Tag pill */
+      .tag-pill {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 99px;
+        font-size: 12px;
+        font-weight: 500;
+        border: 1px solid;
+      }
+
+      /* Noise overlay */
+      .noise-overlay {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.04;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      @media (max-width: 640px) {
+        #cursor-blob {
+          display: none;
+        }
+      }
+
+      /* ── Responsive navbar fixes ── */
+      @media (min-width: 768px) and (max-width: 1023px) {
+        .nav-link {
+          font-size: 12px;
+        }
+        #lang-toggle {
+          padding: 0 8px;
+          font-size: 11px;
+        }
+      }
+
+      /* ── Hero mobile typography ── */
+      @media (max-width: 480px) {
+        .hero-stat-counter {
+          font-size: 1.6rem;
+        }
+      }
+
+      /* ── Hire Me button — always white text ── */
+      .btn-primary,
+      .btn-primary * {
+        color: #ffffff !important;
+      }
+      html.light .btn-primary,
+      html.light .btn-primary * {
+        color: #ffffff !important;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Cursor blob -->
+    <div id="cursor-blob"></div>
+
+    <!-- ===================== NAVBAR ===================== -->
+    <nav class="fixed top-0 left-0 right-0 z-50 nav-bg border-b divider">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <a href="#home" class="flex items-center gap-2">
+            <div
+              class="w-8 h-8 rounded-lg overflow-hidden flex items-center justify-center flex-shrink-0"
+            >
+              <img
+                src="logo.png"
+                alt="akronymstudio logo"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <span class="logo-text text-base hidden sm:inline"
+              >akronymstudio</span
+            >
+          </a>
+
+          <!-- Desktop nav -->
+          <div class="hidden md:flex items-center gap-4">
+            <a href="#about" class="nav-link" data-i18n="nav_about">About</a>
+            <a href="#services" class="nav-link" data-i18n="nav_services"
+              >Services</a
+            >
+            <a href="#work" class="nav-link" data-i18n="nav_work">Work</a>
+            <a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a>
+            <a href="#contact" class="nav-link" data-i18n="nav_contact"
+              >Contact</a
+            >
+          </div>
+
+          <!-- Right controls -->
+          <div class="flex items-center gap-2">
+            <!-- Lang toggle -->
+            <button
+              id="lang-toggle"
+              onclick="toggleLang()"
+              title="Switch language"
+              class="h-9 px-2.5 rounded-lg flex items-center gap-1.5 transition-colors text-xs font-bold"
+              style="
+                background: transparent;
+                border: 1px solid;
+                font-family: &quot;Syne&quot;, sans-serif;
+                letter-spacing: 0.04em;
+              "
+            >
+              <i class="fa-solid fa-globe text-xs accent"></i>
+              <span id="lang-label">ID</span>
+            </button>
+
+            <!-- Theme toggle -->
+            <button
+              id="theme-toggle"
+              onclick="toggleTheme()"
+              class="w-9 h-9 rounded-lg flex items-center justify-center transition-colors"
+              style="background: transparent; border: 1px solid"
+              title="Toggle theme"
+            >
+              <i id="theme-icon" class="fa-solid fa-moon text-sm accent"></i>
+            </button>
+
+            <a
+              href="#contact"
+              class="hidden lg:block btn-primary px-4 py-2 text-sm"
+              data-i18n="nav_hire"
+              >Hire Me</a
+            >
+
+            <!-- Hamburger -->
+            <button
+              id="hamburger"
+              onclick="toggleMenu()"
+              class="md:hidden w-9 h-9 flex flex-col items-center justify-center gap-1.5"
+            >
+              <span
+                class="hamburger-line w-5 h-0.5 rounded transition-all"
+                style="background: currentColor"
+              ></span>
+              <span
+                class="hamburger-line w-5 h-0.5 rounded transition-all"
+                style="background: currentColor"
+              ></span>
+              <span
+                class="hamburger-line w-3.5 h-0.5 rounded transition-all"
+                style="background: currentColor"
+              ></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden border-t divider px-5">
+        <div class="py-4 flex flex-col gap-4">
+          <a
+            href="#about"
+            class="nav-link"
+            onclick="closeMenu()"
+            data-i18n="nav_about"
+            >About</a
+          >
+          <a
+            href="#services"
+            class="nav-link"
+            onclick="closeMenu()"
+            data-i18n="nav_services"
+            >Services</a
+          >
+          <a
+            href="#work"
+            class="nav-link"
+            onclick="closeMenu()"
+            data-i18n="nav_work"
+            >Work</a
+          >
+          <a
+            href="#skills"
+            class="nav-link"
+            onclick="closeMenu()"
+            data-i18n="nav_skills"
+            >Skills</a
+          >
+          <a
+            href="#contact"
+            class="nav-link"
+            onclick="closeMenu()"
+            data-i18n="nav_contact"
+            >Contact</a
+          >
+          <a
+            href="#contact"
+            class="btn-primary px-5 py-2.5 text-sm text-center"
+            onclick="closeMenu()"
+            data-i18n="nav_hire"
+            >Hire Me</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- ===================== HERO ===================== -->
+    <section
+      id="home"
+      class="relative min-h-screen flex items-center overflow-hidden pt-16"
+    >
+      <!-- Shapes -->
+      <div
+        class="shape w-96 h-96 -top-20 -right-20"
+        style="background: rgba(168, 85, 247, 0.13); animation-delay: 0.3s"
+      ></div>
+      <div
+        class="shape w-64 h-64 bottom-20 -left-10"
+        style="background: rgba(99, 102, 241, 0.09); animation-delay: 0.6s"
+      ></div>
+      <div class="noise-overlay"></div>
+
+      <div class="max-w-6xl mx-auto px-5 sm:px-8 w-full py-20">
+        <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+          <!-- Left -->
+          <div>
+            <!-- Status badge -->
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-8 reveal"
+            >
+              <div class="glow-dot"></div>
+              <span
+                class="text-xs text-muted font-medium"
+                data-i18n="hero_badge"
+                >Open for projects — Based in Jakarta 🇮🇩</span
+              >
+            </div>
+
+            <h1
+              class="font-display font-extrabold text-4xl sm:text-5xl lg:text-5xl leading-[1.05] mb-6 reveal"
+              style="animation-delay: 0.1s"
+            >
+              <span data-i18n="hero_h1a">We Build</span><br />
+              <span class="gradient-text" data-i18n="hero_h1b">Web Apps</span
+              ><br />
+              <span data-i18n="hero_h1c">That Matter.</span>
+            </h1>
+
+            <p
+              class="text-muted text-lg leading-relaxed mb-8 max-w-lg reveal"
+              style="animation-delay: 0.2s"
+              data-i18n="hero_desc"
+            >
+              akronymstudio adalah software house fokus pada pengembangan web
+              application modern. Clean code, pixel-perfect design, performa
+              tinggi.
+            </p>
+
+            <div
+              class="flex flex-wrap gap-3 reveal"
+              style="animation-delay: 0.3s"
+            >
+              <a
+                href="#work"
+                class="btn-primary px-6 py-3 inline-flex items-center gap-2"
+              >
+                <span data-i18n="hero_cta1">Lihat Karya Kami</span>
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+              </a>
+              <a
+                href="#contact"
+                class="btn-outline px-6 py-3 inline-flex items-center gap-2"
+              >
+                <span data-i18n="hero_cta2">Konsultasi Gratis</span>
+              </a>
+            </div>
+
+            <!-- Stats -->
+            <div
+              class="flex gap-5 sm:gap-8 mt-10 reveal"
+              style="animation-delay: 0.4s"
+            >
+              <div>
+                <div class="counter text-3xl accent" data-target="10">0</div>
+                <div class="text-xs text-muted mt-0.5" data-i18n="stat1">
+                  Projects Done
+                </div>
+              </div>
+              <div class="w-px divider border-l h-12"></div>
+              <div>
+                <div class="counter text-3xl" data-target="100">
+                  0<span>%</span>
+                </div>
+                <div class="text-xs text-muted mt-0.5" data-i18n="stat2">
+                  Satisfaction Rate
+                </div>
+              </div>
+              <div class="w-px divider border-l h-12"></div>
+              <div>
+                <div class="counter text-3xl" data-target="1">
+                  0<span>+ yr</span>
+                </div>
+                <div class="text-xs text-muted mt-0.5" data-i18n="stat3">
+                  Experience
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right — floating card -->
+          <div
+            class="relative hidden lg:flex justify-center lg:justify-end reveal"
+            style="animation-delay: 0.2s"
+          >
+            <div class="relative w-full max-w-sm animate-float">
+              <!-- Main card -->
+              <div class="card-bg border divider rounded-2xl p-6 shadow-2xl">
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-5">
+                  <div class="flex items-center gap-2">
+                    <div
+                      class="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0"
+                    >
+                      <img
+                        src="logo.png"
+                        alt="logo"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                    <span class="font-display font-bold text-sm"
+                      >akronymstudio</span
+                    >
+                  </div>
+                  <div class="flex gap-1.5">
+                    <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                    <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                  </div>
+                </div>
+
+                <!-- Code preview -->
+                <div
+                  class="rounded-xl p-4 mb-4 text-xs font-mono leading-relaxed"
+                  style="
+                    background: rgba(168, 85, 247, 0.05);
+                    border: 1px solid rgba(168, 85, 247, 0.15);
+                  "
+                >
+                  <div>
+                    <span class="text-blue-400">const</span>
+                    <span class="accent">app</span> =
+                    <span class="text-yellow-400">createApp</span>()
+                  </div>
+                  <div class="mt-1">
+                    <span class="text-blue-400">app</span>.<span
+                      class="text-purple-400"
+                      >use</span
+                    >(<span class="text-green-400">'design'</span>)
+                  </div>
+                  <div class="mt-1">
+                    <span class="text-blue-400">app</span>.<span
+                      class="text-purple-400"
+                      >use</span
+                    >(<span class="text-green-400">'performance'</span>)
+                  </div>
+                  <div class="mt-1">
+                    <span class="text-blue-400">app</span>.<span
+                      class="text-purple-400"
+                      >launch</span
+                    >() <span class="text-muted">// 🚀</span>
+                  </div>
+                </div>
+
+                <!-- Tech pills -->
+                <div class="flex flex-wrap gap-1 mb-4">
+                  <span class="tag-pill tag-bg">
+                    <i class="fa-brands fa-react text-blue-400 mr-1"></i>React
+                  </span>
+
+                  <span class="tag-pill tag-bg">
+                    <i class="fa-brands fa-node-js text-green-400 mr-1"></i>Node
+                  </span>
+
+                  <span class="tag-pill tag-bg">
+                    <i class="fa-brands fa-laravel text-red-500 mr-1"></i
+                    >Laravel
+                  </span>
+
+                  <span class="tag-pill tag-bg">
+                    <i class="fa-solid fa-code text-purple-400 mr-1"></i>Asp.NET
+                  </span>
+                </div>
+
+                <!-- Progress -->
+                <div class="space-y-2">
+                  <div class="flex justify-between text-xs text-muted">
+                    <span>Project build</span>
+                    <span class="accent">87%</span>
+                  </div>
+                  <div class="skill-bar-bg rounded-full" style="height: 4px">
+                    <div
+                      class="skill-bar-fill"
+                      style="
+                        width: 87%;
+                        background: linear-gradient(90deg, #a855f7, #6366f1);
+                      "
+                    ></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating badge -->
+              <div
+                class="absolute -top-4 -right-4 card-bg border divider rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"
+              >
+                <i class="fa-solid fa-star text-yellow-400 text-xs"></i>
+                <span class="text-xs font-semibold" data-i18n="badge_verified"
+                  >Verified Studio ✦</span
+                >
+              </div>
+              <div
+                class="absolute -bottom-4 -left-4 card-bg border divider rounded-xl px-3 py-2 shadow-lg flex items-center gap-2"
+              >
+                <i class="fa-solid fa-bolt accent text-xs"></i>
+                <span class="text-xs font-semibold" data-i18n="badge_fast"
+                  >Fast Delivery</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div
+        class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted"
+        style="opacity: 0.45; pointer-events: none"
+      >
+        <div
+          class="w-px h-8 overflow-hidden rounded"
+          style="background: rgba(168, 85, 247, 0.15)"
+        >
+          <div
+            class="w-px h-full"
+            style="
+              background: #a855f7;
+              animation: scrollLine 2s ease-in-out infinite;
+            "
+          ></div>
+        </div>
+        <span
+          class="text-xs tracking-widest uppercase"
+          style="font-size: 9px; letter-spacing: 0.18em"
+          >Scroll</span
+        >
+      </div>
+    </section>
+
+    <style>
+      @keyframes scrollLine {
+        0% {
+          transform: translateY(-100%);
+        }
+        100% {
+          transform: translateY(200%);
+        }
+      }
+    </style>
+
+    <!-- ===================== MARQUEE ===================== -->
+    <div class="py-5 border-y divider overflow-hidden">
+      <div
+        class="marquee-track flex gap-12 whitespace-nowrap"
+        style="width: max-content"
+      >
+        <span class="text-muted text-sm font-medium">Web Application</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">UI/UX Design</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">Frontend Dev</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">Backend Dev</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">API Integration</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium"
+          >Performance Optimization</span
+        >
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">Mobile Responsive</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <!-- duplicate -->
+        <span class="text-muted text-sm font-medium">Web Application</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">UI/UX Design</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">Frontend Dev</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">Backend Dev</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">API Integration</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium"
+          >Performance Optimization</span
+        >
+        <span style="color: #a855f7" class="text-sm">✦</span>
+        <span class="text-muted text-sm font-medium">Mobile Responsive</span>
+        <span style="color: #a855f7" class="text-sm">✦</span>
+      </div>
+    </div>
+
+    <!-- ===================== ABOUT ===================== -->
+    <section id="about" class="py-24 section-alt">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- Left: Image area -->
+          <div class="reveal">
+            <div class="relative">
+              <!-- Main illustration box -->
+              <div
+                class="rounded-2xl overflow-hidden border divider card-bg p-8 relative"
+              >
+                <div class="noise-overlay"></div>
+                <div class="flex flex-col gap-6 relative z-10">
+                  <!-- Avatar area -->
+                  <div class="flex items-center gap-4">
+                    <div
+                      class="w-16 h-16 rounded-2xl overflow-hidden flex-shrink-0"
+                    >
+                      <img
+                        src="logo.png"
+                        alt="akronymstudio logo"
+                        class="w-full h-full object-cover"
+                      />
+                    </div>
+                    <div>
+                      <div class="font-display font-bold text-lg">
+                        akronymstudio
+                      </div>
+                      <div
+                        class="text-muted text-sm flex items-center gap-1.5 mt-0.5"
+                      >
+                        <i class="fa-solid fa-location-dot text-xs accent"></i>
+                        Based in Jakarta, Indonesia
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Info rows -->
+                  <div class="space-y-3">
+                    <div class="flex items-center gap-3 text-sm">
+                      <div
+                        class="w-8 h-8 rounded-lg card-bg border divider flex items-center justify-center flex-shrink-0"
+                      >
+                        <i
+                          class="fa-solid fa-graduation-cap text-xs accent"
+                        ></i>
+                      </div>
+                      <span class="text-muted">S1 Teknologi Informasi</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm">
+                      <div
+                        class="w-8 h-8 rounded-lg card-bg border divider flex items-center justify-center flex-shrink-0"
+                      >
+                        <i class="fa-solid fa-briefcase text-xs accent"></i>
+                      </div>
+                      <span class="text-muted">Software Engineer · 25 yo</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm">
+                      <div
+                        class="w-8 h-8 rounded-lg card-bg border divider flex items-center justify-center flex-shrink-0"
+                      >
+                        <i class="fa-solid fa-motorcycle text-xs accent"></i>
+                      </div>
+                      <span class="text-muted"
+                        >Kawasaki W175 Classic Rider</span
+                      >
+                    </div>
+                  </div>
+
+                  <!-- Tags -->
+                  <div class="flex flex-wrap gap-2">
+                    <span class="tag-pill tag-bg text-xs">Web Dev</span>
+                    <span class="tag-pill tag-bg text-xs">Clean Code</span>
+                    <span class="tag-pill tag-bg text-xs">Problem Solver</span>
+                    <span class="tag-pill tag-bg text-xs">Fast Learner</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Floating achievement cards -->
+              <div
+                class="absolute -right-6 top-8 card-bg border divider rounded-xl p-3 shadow-xl hidden sm:block"
+              >
+                <div class="flex items-center gap-2">
+                  <i class="fa-solid fa-fire accent text-sm"></i>
+                  <span class="text-xs font-semibold">Passionate Builder</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Text -->
+          <div class="reveal" style="animation-delay: 0.1s">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+            >
+              <i class="fa-solid fa-circle-info text-xs accent"></i>
+              Tentang Kami
+            </div>
+
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-5xl leading-tight mb-6"
+            >
+              Small Studio,<br /><span class="gradient-text">Big Impact.</span>
+            </h2>
+
+            <div class="space-y-4 text-muted leading-relaxed mb-8">
+              <p>
+                akronymstudio adalah software house independen berbasis di
+                Jakarta yang didirikan oleh seorang Software Engineer lulusan
+                Teknologi Informasi. Kami percaya bahwa produk digital yang baik
+                bukan hanya soal kode — tapi tentang
+                <strong style="color: inherit; font-weight: 600"
+                  >pengalaman</strong
+                >
+                yang diciptakan untuk penggunanya.
+              </p>
+              <p>
+                Kami fokus pada pengembangan web application yang modern,
+                scalable, dan benar-benar berfungsi untuk bisnis Anda. Setiap
+                proyek dikerjakan dengan penuh dedikasi, mulai dari konsep
+                hingga deployment.
+              </p>
+              <p>
+                Di luar layar, kami menjalani hidup autentik — suka berkendara di
+                aspal Jakarta dengan Kawasaki W175, percaya bahwa karakter yang
+                kuat — di motor maupun di produk — selalu bicara sendiri. 🏍️
+              </p>
+            </div>
+
+            <!-- Values -->
+            <div class="grid grid-cols-2 gap-3">
+              <div class="card-bg border divider rounded-xl p-4">
+                <i class="fa-solid fa-pen-ruler accent mb-2"></i>
+                <div class="font-semibold text-sm mb-1">Design First</div>
+                <div class="text-xs text-muted" data-i18n="val1_sub">
+                  UI yang indah & intuitif
+                </div>
+              </div>
+              <div class="card-bg border divider rounded-xl p-4">
+                <i class="fa-solid fa-bolt accent mb-2"></i>
+                <div class="font-semibold text-sm mb-1">Performa Tinggi</div>
+                <div class="text-xs text-muted" data-i18n="val2_sub">
+                  Fast loading, optimized
+                </div>
+              </div>
+              <div class="card-bg border divider rounded-xl p-4">
+                <i class="fa-solid fa-shield-halved accent mb-2"></i>
+                <div class="font-semibold text-sm mb-1">Clean Code</div>
+                <div class="text-xs text-muted" data-i18n="val3_sub">
+                  Maintainable & scalable
+                </div>
+              </div>
+              <div class="card-bg border divider rounded-xl p-4">
+                <i class="fa-solid fa-headset accent mb-2"></i>
+                <div class="font-semibold text-sm mb-1">Komunikatif</div>
+                <div class="text-xs text-muted" data-i18n="val4_sub">
+                  Update progress real-time
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SERVICES ===================== -->
+    <section id="services" class="py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <!-- Header -->
+        <div class="text-center mb-16 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+          >
+            <i class="fa-solid fa-layer-group text-xs accent"></i>
+            Layanan Kami
+          </div>
+          <h2
+            class="font-display font-extrabold text-4xl sm:text-5xl leading-tight"
+          >
+            <span data-i18n="svc_h2a">Apa yang</span><br /><span
+              class="gradient-text"
+              data-i18n="svc_h2b"
+              >Kami Bisa</span
+            >
+          </h2>
+        </div>
+
+        <!-- Services grid -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="service-card card-bg rounded-2xl p-6 reveal">
+            <div
+              class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center"
+              style="background: rgba(0, 255, 135, 0.1)"
+            >
+              <i class="fa-solid fa-desktop accent text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-3">
+              Web App Development
+            </h3>
+            <p
+              class="text-muted text-sm leading-relaxed mb-4"
+              data-i18n="svc1_desc"
+            >
+              Bangun web application dari nol — dari SPA, dashboard,
+              marketplace, sampai platform kompleks.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill tag-bg text-xs">React</span>
+              <span class="tag-pill tag-bg text-xs">Next.js</span>
+              <span class="tag-pill tag-bg text-xs">Vue</span>
+            </div>
+          </div>
+
+          <div
+            class="service-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.1s"
+          >
+            <div
+              class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center"
+              style="background: rgba(0, 191, 255, 0.1)"
+            >
+              <i class="fa-solid fa-server text-blue-400 text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-3">Backend & API</h3>
+            <p
+              class="text-muted text-sm leading-relaxed mb-4"
+              data-i18n="svc2_desc"
+            >
+              REST API, database design, authentication, dan backend yang solid
+              untuk mendukung front-end Anda.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill tag-bg text-xs">Node.js</span>
+              <span class="tag-pill tag-bg text-xs">Express</span>
+              <span class="tag-pill tag-bg text-xs">PostgreSQL</span>
+            </div>
+          </div>
+
+          <div
+            class="service-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.2s"
+          >
+            <div
+              class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center"
+              style="background: rgba(168, 85, 247, 0.1)"
+            >
+              <i class="fa-solid fa-pen-nib text-purple-400 text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-3">UI/UX Design</h3>
+            <p
+              class="text-muted text-sm leading-relaxed mb-4"
+              data-i18n="svc3_desc"
+            >
+              Desain interface yang cantik, user-friendly, dan konversi tinggi.
+              Figma prototyping included.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill tag-bg text-xs">Figma</span>
+              <span class="tag-pill tag-bg text-xs">Prototyping</span>
+              <span class="tag-pill tag-bg text-xs">Design System</span>
+            </div>
+          </div>
+
+          <div
+            class="service-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.3s"
+          >
+            <div
+              class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center"
+              style="background: rgba(251, 146, 60, 0.1)"
+            >
+              <i class="fa-solid fa-mobile-screen text-orange-400 text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-3">Responsive Web</h3>
+            <p
+              class="text-muted text-sm leading-relaxed mb-4"
+              data-i18n="svc4_desc"
+            >
+              Website yang tampil sempurna di semua ukuran layar — mobile,
+              tablet, desktop, widescreen.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill tag-bg text-xs">Tailwind</span>
+              <span class="tag-pill tag-bg text-xs">Mobile First</span>
+            </div>
+          </div>
+
+          <div
+            class="service-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.4s"
+          >
+            <div
+              class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center"
+              style="background: rgba(251, 191, 36, 0.1)"
+            >
+              <i class="fa-solid fa-gauge-high text-yellow-400 text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-3">
+              Optimasi Performa
+            </h3>
+            <p
+              class="text-muted text-sm leading-relaxed mb-4"
+              data-i18n="svc5_desc"
+            >
+              Speed optimization, SEO teknis, Lighthouse score improvement —
+              buat web Anda terbang.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill tag-bg text-xs">Core Web Vitals</span>
+              <span class="tag-pill tag-bg text-xs">SEO</span>
+            </div>
+          </div>
+
+          <div
+            class="service-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.5s"
+          >
+            <div
+              class="w-12 h-12 rounded-xl mb-5 flex items-center justify-center"
+              style="background: rgba(236, 72, 153, 0.1)"
+            >
+              <i class="fa-solid fa-cloud text-pink-400 text-xl"></i>
+            </div>
+            <h3 class="font-display font-bold text-xl mb-3">
+              Deploy & Maintenance
+            </h3>
+            <p
+              class="text-muted text-sm leading-relaxed mb-4"
+              data-i18n="svc6_desc"
+            >
+              Deployment ke cloud, CI/CD setup, dan maintenance ongoing agar web
+              Anda selalu up & running.
+            </p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="tag-pill tag-bg text-xs">Vercel</span>
+              <span class="tag-pill tag-bg text-xs">Netlify</span>
+              <span class="tag-pill tag-bg text-xs">VPS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== WORK / PORTFOLIO ===================== -->
+    <section id="work" class="py-24 section-alt">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <!-- Header -->
+        <div
+          class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14 reveal"
+        >
+          <div>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+            >
+              <i class="fa-solid fa-briefcase text-xs accent"></i>
+              Portfolio
+            </div>
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-5xl leading-tight"
+            >
+              Hasil Karya<br /><span class="gradient-text">Kami</span>
+            </h2>
+          </div>
+          <p class="text-muted text-sm max-w-xs" data-i18n="port_sub">
+            Beberapa project yang kami kerjakan — dari personal project hingga
+            client work.
+          </p>
+        </div>
+
+        <!-- Projects -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Project 1 -->
+          <div
+            class="project-card card-bg border divider rounded-2xl overflow-hidden reveal"
+          >
+            <div
+              class="relative h-44 overflow-hidden"
+              style="background: linear-gradient(135deg, #0a1628, #0d2137)"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i
+                    class="fa-solid fa-chart-line text-4xl mb-2"
+                    style="color: var(--accent)"
+                  ></i>
+                  <div class="text-xs text-muted" data-i18n="card_label1">
+                    Dashboard Analytics
+                  </div>
+                </div>
+              </div>
+              <div class="absolute inset-0 noise-overlay"></div>
+              <div class="absolute top-3 right-3">
+                <span
+                  class="tag-pill text-xs"
+                  style="
+                    background: rgba(0, 255, 135, 0.1);
+                    border-color: rgba(0, 255, 135, 0.2);
+                    color: var(--accent);
+                  "
+                  >Live</span
+                >
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-bold text-lg mb-2">
+                Dashboard Analytics
+              </h3>
+              <p
+                class="text-muted text-sm mb-4 leading-relaxed"
+                data-i18n="proj1_desc"
+              >
+                Platform analytics real-time untuk monitoring bisnis. Data
+                visualization interaktif, export report.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="tag-pill tag-bg text-xs">React</span>
+                <span class="tag-pill tag-bg text-xs">Node.js</span>
+                <span class="tag-pill tag-bg text-xs">Chart.js</span>
+              </div>
+              <a
+                href="#"
+                class="flex items-center gap-1.5 text-sm font-medium accent hover:underline"
+              >
+                Lihat Project <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 2 -->
+          <div
+            class="project-card card-bg border divider rounded-2xl overflow-hidden reveal"
+            style="animation-delay: 0.1s"
+          >
+            <div
+              class="relative h-44 overflow-hidden"
+              style="background: linear-gradient(135deg, #1a0a28, #2d0d3d)"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i
+                    class="fa-solid fa-store text-4xl mb-2 text-purple-400"
+                  ></i>
+                  <div class="text-xs text-muted">E-Commerce</div>
+                </div>
+              </div>
+              <div class="absolute inset-0 noise-overlay"></div>
+              <div class="absolute top-3 right-3">
+                <span
+                  class="tag-pill text-xs"
+                  style="
+                    background: rgba(168, 85, 247, 0.1);
+                    border-color: rgba(168, 85, 247, 0.2);
+                    color: #c084fc;
+                  "
+                  >Personal</span
+                >
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-bold text-lg mb-2">
+                E-Commerce Platform
+              </h3>
+              <p
+                class="text-muted text-sm mb-4 leading-relaxed"
+                data-i18n="proj2_desc"
+              >
+                Toko online lengkap dengan manajemen produk, cart, payment
+                gateway, dan order tracking.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="tag-pill tag-bg text-xs">Next.js</span>
+                <span class="tag-pill tag-bg text-xs">PostgreSQL</span>
+                <span class="tag-pill tag-bg text-xs">Stripe</span>
+              </div>
+              <a
+                href="#"
+                class="flex items-center gap-1.5 text-sm font-medium accent hover:underline"
+              >
+                Lihat Project <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 3 -->
+          <div
+            class="project-card card-bg border divider rounded-2xl overflow-hidden reveal"
+            style="animation-delay: 0.2s"
+          >
+            <div
+              class="relative h-44 overflow-hidden"
+              style="background: linear-gradient(135deg, #0a1a0a, #0d280d)"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i
+                    class="fa-solid fa-calendar-check text-4xl mb-2 text-green-400"
+                  ></i>
+                  <div class="text-xs text-muted">Booking System</div>
+                </div>
+              </div>
+              <div class="absolute inset-0 noise-overlay"></div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-bold text-lg mb-2">
+                Booking System
+              </h3>
+              <p
+                class="text-muted text-sm mb-4 leading-relaxed"
+                data-i18n="proj3_desc"
+              >
+                Sistem reservasi online dengan kalender interaktif, notifikasi
+                otomatis, dan manajemen jadwal.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="tag-pill tag-bg text-xs">Vue.js</span>
+                <span class="tag-pill tag-bg text-xs">Express</span>
+                <span class="tag-pill tag-bg text-xs">MySQL</span>
+              </div>
+              <a
+                href="#"
+                class="flex items-center gap-1.5 text-sm font-medium accent hover:underline"
+              >
+                Lihat Project <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 4 -->
+          <div
+            class="project-card card-bg border divider rounded-2xl overflow-hidden reveal"
+            style="animation-delay: 0.3s"
+          >
+            <div
+              class="relative h-44 overflow-hidden"
+              style="background: linear-gradient(135deg, #1a120a, #2a1a08)"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i
+                    class="fa-solid fa-users text-4xl mb-2 text-orange-400"
+                  ></i>
+                  <div class="text-xs text-muted">CRM System</div>
+                </div>
+              </div>
+              <div class="absolute inset-0 noise-overlay"></div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-bold text-lg mb-2">CRM Internal</h3>
+              <p
+                class="text-muted text-sm mb-4 leading-relaxed"
+                data-i18n="proj4_desc"
+              >
+                Sistem manajemen pelanggan dengan pipeline sales, activity
+                tracking, dan reporting.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="tag-pill tag-bg text-xs">React</span>
+                <span class="tag-pill tag-bg text-xs">TypeScript</span>
+                <span class="tag-pill tag-bg text-xs">Prisma</span>
+              </div>
+              <a
+                href="#"
+                class="flex items-center gap-1.5 text-sm font-medium accent hover:underline"
+              >
+                Lihat Project <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 5 -->
+          <div
+            class="project-card card-bg border divider rounded-2xl overflow-hidden reveal"
+            style="animation-delay: 0.4s"
+          >
+            <div
+              class="relative h-44 overflow-hidden"
+              style="background: linear-gradient(135deg, #0a0f1a, #0d1828)"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-blog text-4xl mb-2 text-blue-400"></i>
+                  <div class="text-xs text-muted">Blog Platform</div>
+                </div>
+              </div>
+              <div class="absolute inset-0 noise-overlay"></div>
+            </div>
+            <div class="p-5">
+              <h3 class="font-display font-bold text-lg mb-2">
+                Blog & CMS Platform
+              </h3>
+              <p
+                class="text-muted text-sm mb-4 leading-relaxed"
+                data-i18n="proj5_desc"
+              >
+                Platform blogging dengan CMS custom, rich text editor, kategori,
+                tag, dan SEO optimization.
+              </p>
+              <div class="flex flex-wrap gap-1.5 mb-4">
+                <span class="tag-pill tag-bg text-xs">Next.js</span>
+                <span class="tag-pill tag-bg text-xs">MDX</span>
+                <span class="tag-pill tag-bg text-xs">Vercel</span>
+              </div>
+              <a
+                href="#"
+                class="flex items-center gap-1.5 text-sm font-medium accent hover:underline"
+              >
+                Lihat Project <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Project 6 — Coming soon -->
+          <div
+            class="project-card card-bg border divider rounded-2xl overflow-hidden reveal"
+            style="animation-delay: 0.5s"
+          >
+            <div
+              class="relative h-44 overflow-hidden"
+              style="background: linear-gradient(135deg, #111, #1a1a1a)"
+            >
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i class="fa-solid fa-plus text-4xl mb-2 text-muted"></i>
+                  <div class="text-xs text-muted">Your Project</div>
+                </div>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3
+                class="font-display font-bold text-lg mb-2"
+                data-i18n="proj6_title"
+              >
+                Project Berikutnya?
+              </h3>
+              <p
+                class="text-muted text-sm mb-4 leading-relaxed"
+                data-i18n="proj6_desc"
+              >
+                Spot ini bisa jadi milik Anda. Mari diskusikan ide project Anda
+                dan wujudkan bersama kami.
+              </p>
+              <a
+                href="#contact"
+                class="btn-primary px-4 py-2 text-sm inline-flex items-center gap-1.5"
+              >
+                Mulai Diskusi <i class="fa-solid fa-arrow-right text-xs"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SKILLS ===================== -->
+    <section id="skills" class="py-24">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+          <!-- Left: Tech stack -->
+          <div class="reveal">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+            >
+              <i class="fa-solid fa-code text-xs accent"></i>
+              Tech Stack
+            </div>
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-5xl leading-tight mb-10"
+            >
+              <span data-i18n="sk_h2a">Tools &</span><br /><span
+                class="gradient-text"
+                data-i18n="sk_h2b"
+                >Keahlian</span
+              >
+            </h2>
+
+            <div class="space-y-5">
+              <div class="skill-item" data-skill="90">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-brands fa-react text-blue-400"></i> React /
+                    Next.js
+                  </div>
+                  <span class="text-xs text-muted">90%</span>
+                </div>
+                <div class="skill-bar skill-bar-bg">
+                  <div class="skill-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="skill-item" data-skill="82">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-brands fa-js text-yellow-400"></i> JavaScript /
+                    TypeScript
+                  </div>
+                  <span class="text-xs text-muted">82%</span>
+                </div>
+                <div class="skill-bar skill-bar-bg">
+                  <div class="skill-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="skill-item" data-skill="78">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-brands fa-node-js text-green-400"></i> Node.js
+                    / Express
+                  </div>
+                  <span class="text-xs text-muted">78%</span>
+                </div>
+                <div class="skill-bar skill-bar-bg">
+                  <div class="skill-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="skill-item" data-skill="85">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-brands fa-css3-alt text-blue-500"></i> Tailwind
+                    CSS / CSS
+                  </div>
+                  <span class="text-xs text-muted">85%</span>
+                </div>
+                <div class="skill-bar skill-bar-bg">
+                  <div class="skill-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="skill-item" data-skill="70">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-solid fa-database text-purple-400"></i>
+                    PostgreSQL / MySQL
+                  </div>
+                  <span class="text-xs text-muted">70%</span>
+                </div>
+                <div class="skill-bar skill-bar-bg">
+                  <div class="skill-bar-fill"></div>
+                </div>
+              </div>
+
+              <div class="skill-item" data-skill="75">
+                <div class="flex justify-between items-center mb-2">
+                  <div class="flex items-center gap-2 text-sm font-medium">
+                    <i class="fa-brands fa-git-alt text-orange-400"></i> Git /
+                    GitHub
+                  </div>
+                  <span class="text-xs text-muted">75%</span>
+                </div>
+                <div class="skill-bar skill-bar-bg">
+                  <div class="skill-bar-fill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Tools & Process -->
+          <div class="reveal" style="animation-delay: 0.15s">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+            >
+              <i class="fa-solid fa-gears text-xs accent"></i>
+              Cara Kerja
+            </div>
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-5xl leading-tight mb-10"
+            >
+              <span data-i18n="hw_h2a">How We</span><br /><span
+                class="gradient-text"
+                data-i18n="hw_h2b"
+                >Work</span
+              >
+            </h2>
+
+            <!-- Process steps -->
+            <div class="space-y-4">
+              <div
+                class="card-bg border divider rounded-2xl p-5 flex gap-4 items-start"
+              >
+                <div
+                  class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm"
+                  style="background: rgba(168, 85, 247, 0.12); color: #a855f7"
+                >
+                  01
+                </div>
+                <div>
+                  <div class="font-semibold mb-1" data-i18n="step1_title">
+                    Discovery & Konsultasi
+                  </div>
+                  <div class="text-muted text-sm" data-i18n="step1_desc">
+                    Pahami kebutuhan, target user, dan tujuan bisnis Anda.
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="card-bg border divider rounded-2xl p-5 flex gap-4 items-start"
+              >
+                <div
+                  class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm"
+                  style="background: rgba(0, 191, 255, 0.1); color: #00bfff"
+                >
+                  02
+                </div>
+                <div>
+                  <div class="font-semibold mb-1">Design & Prototyping</div>
+                  <div class="text-muted text-sm">
+                    Wireframe, UI design di Figma, dan revisi sampai puas.
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="card-bg border divider rounded-2xl p-5 flex gap-4 items-start"
+              >
+                <div
+                  class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm"
+                  style="background: rgba(168, 85, 247, 0.1); color: #c084fc"
+                >
+                  03
+                </div>
+                <div>
+                  <div class="font-semibold mb-1">Development & Testing</div>
+                  <div class="text-muted text-sm">
+                    Build dengan clean code, progress update rutin, testing
+                    menyeluruh.
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="card-bg border divider rounded-2xl p-5 flex gap-4 items-start"
+              >
+                <div
+                  class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 font-display font-black text-sm"
+                  style="background: rgba(251, 146, 60, 0.1); color: #fb923c"
+                >
+                  04
+                </div>
+                <div>
+                  <div class="font-semibold mb-1">Launch & Support</div>
+                  <div class="text-muted text-sm">
+                    Deploy, monitoring, dan dukungan pasca-launch agar semua
+                    berjalan mulus.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tools grid -->
+            <div class="mt-6 grid grid-cols-4 gap-3">
+              <div class="card-bg border divider rounded-xl p-3 text-center">
+                <i class="fa-brands fa-figma text-xl text-purple-400 mb-1"></i>
+                <div class="text-xs text-muted">Figma</div>
+              </div>
+              <div class="card-bg border divider rounded-xl p-3 text-center">
+                <i class="fa-brands fa-github text-xl mb-1"></i>
+                <div class="text-xs text-muted">GitHub</div>
+              </div>
+              <div class="card-bg border divider rounded-xl p-3 text-center">
+                <i class="fa-solid fa-cloud text-xl text-blue-400 mb-1"></i>
+                <div class="text-xs text-muted">Vercel</div>
+              </div>
+              <div class="card-bg border divider rounded-xl p-3 text-center">
+                <i class="fa-brands fa-docker text-xl text-blue-500 mb-1"></i>
+                <div class="text-xs text-muted">Docker</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== TESTIMONIALS ===================== -->
+    <section class="py-24 section-alt">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="text-center mb-14 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+          >
+            <i class="fa-solid fa-comment-dots text-xs accent"></i>
+            Testimoni
+          </div>
+          <h2
+            class="font-display font-extrabold text-4xl sm:text-5xl leading-tight"
+          >
+            <span data-i18n="testi_h2a">Kata Mereka</span><br /><span
+              class="gradient-text"
+              data-i18n="testi_h2b"
+              >Tentang Kami</span
+            >
+          </h2>
+        </div>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div class="testimonial-card card-bg rounded-2xl p-6 reveal">
+            <div class="flex gap-1 mb-4">
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+            </div>
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              <span data-i18n="testi1"
+                >"Dashboard yang dibuatkan akronymstudio luar biasa. Clean,
+                cepat, dan sangat mudah dipahami oleh tim kami. Recommended
+                banget!"</span
+              >
+            </p>
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full accent-bg flex items-center justify-center font-bold text-sm"
+                style="color: #0a0a0a"
+              >
+                R
+              </div>
+              <div>
+                <div class="font-semibold text-sm">Rizky A.</div>
+                <div class="text-xs text-muted">CEO, Startup Jakarta</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="testimonial-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.1s"
+          >
+            <div class="flex gap-1 mb-4">
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+            </div>
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              <span data-i18n="testi2"
+                >"Komunikasinya enak banget, selalu update progress. Hasil
+                akhirnya jauh melampaui ekspektasi saya. Desainnya modern dan
+                responsif!"</span
+              >
+            </p>
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+                style="background: rgba(168, 85, 247, 0.2); color: #c084fc"
+              >
+                S
+              </div>
+              <div>
+                <div class="font-semibold text-sm">Sari W.</div>
+                <div class="text-xs text-muted">Founder, UMKM Bandung</div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="testimonial-card card-bg rounded-2xl p-6 reveal"
+            style="animation-delay: 0.2s"
+          >
+            <div class="flex gap-1 mb-4">
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+              <i class="fa-solid fa-star text-yellow-400 text-sm"></i>
+            </div>
+            <p class="text-muted text-sm leading-relaxed mb-5">
+              <span data-i18n="testi3"
+                >"Deadline terpenuhi, kode rapih, dan ada masa garansi setelah
+                launch. Beda banget sama developer lain yang pernah saya
+                hire."</span
+              >
+            </p>
+            <div class="flex items-center gap-3">
+              <div
+                class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm"
+                style="background: rgba(251, 146, 60, 0.2); color: #fb923c"
+              >
+                A
+              </div>
+              <div>
+                <div class="font-semibold text-sm">Ahmad F.</div>
+                <div class="text-xs text-muted">Product Manager, Tech Co.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FAQ ===================== -->
+    <section class="py-24">
+      <div class="max-w-3xl mx-auto px-5 sm:px-8">
+        <div class="text-center mb-14 reveal">
+          <div
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+          >
+            <i class="fa-solid fa-circle-question text-xs accent"></i>
+            FAQ
+          </div>
+          <h2
+            class="font-display font-extrabold text-4xl sm:text-5xl leading-tight"
+          >
+            <span data-i18n="faq_h2a">Pertanyaan</span><br /><span
+              class="gradient-text"
+              data-i18n="faq_h2b"
+              >Umum</span
+            >
+          </h2>
+        </div>
+
+        <div class="space-y-3 reveal">
+          <div
+            class="faq-item card-bg border divider rounded-2xl overflow-hidden"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-semibold text-sm"
+            >
+              <span data-i18n="faq1_q"
+                >Berapa estimasi biaya untuk membuat web app?</span
+              >
+              <i
+                class="fa-solid fa-chevron-down text-xs text-muted transition-transform faq-icon"
+              ></i>
+            </button>
+            <div
+              class="faq-content px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300"
+            >
+              <p
+                class="text-muted text-sm leading-relaxed pb-5"
+                data-i18n="faq1_a"
+              >
+                Biaya sangat bervariasi tergantung kompleksitas project. Landing
+                page sederhana mulai dari Rp 1–3 juta, web app menengah Rp 5–20
+                juta, dan platform kompleks bisa lebih. Konsultasi gratis untuk
+                estimasi yang lebih akurat sesuai kebutuhan Anda.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="faq-item card-bg border divider rounded-2xl overflow-hidden"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-semibold text-sm"
+            >
+              <span data-i18n="faq2_q">Berapa lama waktu pengerjaan?</span>
+              <i
+                class="fa-solid fa-chevron-down text-xs text-muted transition-transform faq-icon"
+              ></i>
+            </button>
+            <div
+              class="faq-content px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300"
+            >
+              <p
+                class="text-muted text-sm leading-relaxed pb-5"
+                data-i18n="faq2_a"
+              >
+                Tergantung scope. Landing page 3–7 hari kerja. Web app standar
+                2–6 minggu. Platform besar 2–4 bulan. Kami selalu memberikan
+                timeline yang realistis di awal project dan update progres
+                secara berkala.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="faq-item card-bg border divider rounded-2xl overflow-hidden"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-semibold text-sm"
+            >
+              <span data-i18n="faq3_q"
+                >Apakah ada garansi setelah project selesai?</span
+              >
+              <i
+                class="fa-solid fa-chevron-down text-xs text-muted transition-transform faq-icon"
+              ></i>
+            </button>
+            <div
+              class="faq-content px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300"
+            >
+              <p
+                class="text-muted text-sm leading-relaxed pb-5"
+                data-i18n="faq3_a"
+              >
+                Ya! Setiap project mendapatkan garansi bug fixing 30 hari
+                setelah launch tanpa biaya tambahan. Kami juga menyediakan
+                layanan maintenance dan update ongoing jika dibutuhkan.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="faq-item card-bg border divider rounded-2xl overflow-hidden"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-semibold text-sm"
+            >
+              <span data-i18n="faq4_q"
+                >Saya sudah punya desain, bisa langsung develop?</span
+              >
+              <i
+                class="fa-solid fa-chevron-down text-xs text-muted transition-transform faq-icon"
+              ></i>
+            </button>
+            <div
+              class="faq-content px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300"
+            >
+              <p
+                class="text-muted text-sm leading-relaxed pb-5"
+                data-i18n="faq4_a"
+              >
+                Tentu bisa! Kami bisa langsung implement desain yang sudah ada
+                (Figma, XD, atau referensi visual lainnya). Kalau belum ada
+                desain pun tidak masalah — kami handle dari awal.
+              </p>
+            </div>
+          </div>
+
+          <div
+            class="faq-item card-bg border divider rounded-2xl overflow-hidden"
+          >
+            <button
+              onclick="toggleFaq(this)"
+              class="w-full text-left px-6 py-5 flex items-center justify-between gap-4 font-semibold text-sm"
+            >
+              <span data-i18n="faq5_q">Bagaimana sistem pembayarannya?</span>
+              <i
+                class="fa-solid fa-chevron-down text-xs text-muted transition-transform faq-icon"
+              ></i>
+            </button>
+            <div
+              class="faq-content px-6 pb-0 max-h-0 overflow-hidden transition-all duration-300"
+            >
+              <p
+                class="text-muted text-sm leading-relaxed pb-5"
+                data-i18n="faq5_a"
+              >
+                Umumnya DP 50% di awal untuk mulai pengerjaan, dan pelunasan 50%
+                setelah project selesai dan disetujui sebelum serah terima
+                source code. Bisa diskusi untuk skema yang lebih fleksibel.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CONTACT ===================== -->
+    <section id="contact" class="py-24 section-alt">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-2 gap-14 items-start">
+          <!-- Left -->
+          <div class="reveal">
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border divider card-bg mb-6 text-xs text-muted font-medium"
+            >
+              <i class="fa-solid fa-envelope text-xs accent"></i>
+              Kontak
+            </div>
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-5xl leading-tight mb-6"
+            >
+              <span data-i18n="contact_h2a">Punya Ide?</span><br /><span
+                class="gradient-text"
+                data-i18n="contact_h2b"
+                >Let's Talk.</span
+              >
+            </h2>
+            <p class="text-muted leading-relaxed mb-10" data-i18n="contact_sub">
+              Ceritakan project Anda dan kami akan bantu wujudkan. Konsultasi
+              pertama selalu gratis, tanpa komitmen.
+            </p>
+
+            <!-- Contact info -->
+            <div class="space-y-4 mb-10">
+              <a
+                href="/cdn-cgi/l/email-protection#244c4148484b64454f564b4a5d49575051404d4b0a474b49"
+                class="flex items-center gap-4 group"
+              >
+                <div
+                  class="w-11 h-11 card-bg border divider rounded-xl flex items-center justify-center flex-shrink-0 group-hover:border-accent transition-colors"
+                  style="--tw-border-opacity: 1"
+                >
+                  <i class="fa-solid fa-envelope text-sm accent"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-muted mb-0.5">Email</div>
+                  <div class="font-medium text-sm">
+                    <span
+                      class="__cf_email__"
+                      data-cfemail="d6beb3babab996b7bda4b9b8afbba5a2a3b2bfb9f8b5b9bb"
+                      >[email&#160;protected]</span
+                    >
+                  </div>
+                </div>
+              </a>
+
+              <a
+                href="https://wa.me/6281234567890"
+                target="_blank"
+                class="flex items-center gap-4 group"
+              >
+                <div
+                  class="w-11 h-11 card-bg border divider rounded-xl flex items-center justify-center flex-shrink-0 group-hover:border-green-400 transition-colors"
+                >
+                  <i class="fa-brands fa-whatsapp text-sm text-green-400"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-muted mb-0.5">WhatsApp</div>
+                  <div class="font-medium text-sm">+62 812-3456-7890</div>
+                </div>
+              </a>
+
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-11 h-11 card-bg border divider rounded-xl flex items-center justify-center flex-shrink-0"
+                >
+                  <i class="fa-solid fa-location-dot text-sm accent"></i>
+                </div>
+                <div>
+                  <div class="text-xs text-muted mb-0.5">Lokasi</div>
+                  <div class="font-medium text-sm">Jakarta, Indonesia 🇮🇩</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Social -->
+            <div class="flex gap-3">
+              <a
+                href="#"
+                class="w-10 h-10 card-bg border divider rounded-xl flex items-center justify-center hover:border-accent transition-colors text-sm"
+              >
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 card-bg border divider rounded-xl flex items-center justify-center hover:border-blue-400 transition-colors text-sm"
+              >
+                <i class="fa-brands fa-linkedin text-blue-400"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 card-bg border divider rounded-xl flex items-center justify-center hover:border-pink-400 transition-colors text-sm"
+              >
+                <i class="fa-brands fa-instagram text-pink-400"></i>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 card-bg border divider rounded-xl flex items-center justify-center hover:border-sky-400 transition-colors text-sm"
+              >
+                <i class="fa-brands fa-twitter text-sky-400"></i>
+              </a>
+            </div>
+          </div>
+
+          <!-- Right: Form -->
+          <div
+            class="card-bg border divider rounded-2xl p-7 reveal"
+            style="animation-delay: 0.1s"
+          >
+            <h3
+              class="font-display font-bold text-xl mb-6"
+              data-i18n="form_title"
+            >
+              Kirim Pesan 📩
+            </h3>
+
+            <form
+              id="contact-form"
+              onsubmit="handleSubmit(event)"
+              class="space-y-4"
+            >
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label
+                    class="text-xs text-muted font-medium mb-1.5 block"
+                    data-i18n="form_name"
+                    >Nama Lengkap *</label
+                  >
+                  <input
+                    type="text"
+                    class="input-field"
+                    placeholder="Nama kamu"
+                    required
+                  />
+                </div>
+                <div>
+                  <label
+                    class="text-xs text-muted font-medium mb-1.5 block"
+                    data-i18n="form_email"
+                    >Email *</label
+                  >
+                  <input
+                    type="email"
+                    class="input-field"
+                    placeholder="email@kamu.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label
+                  class="text-xs text-muted font-medium mb-1.5 block"
+                  data-i18n="form_type"
+                  >Jenis Project</label
+                >
+                <select class="input-field">
+                  <option value="">Pilih jenis project...</option>
+                  <option>Web Application</option>
+                  <option>Landing Page / Company Profile</option>
+                  <option>E-Commerce</option>
+                  <option>Dashboard / Admin Panel</option>
+                  <option>API / Backend</option>
+                  <option>Lainnya</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  class="text-xs text-muted font-medium mb-1.5 block"
+                  data-i18n="form_budget"
+                  >Budget Estimasi</label
+                >
+                <select class="input-field">
+                  <option value="">Pilih range budget...</option>
+                  <option>< Rp 5 juta</option>
+                  <option>Rp 5 – 15 juta</option>
+                  <option>Rp 15 – 50 juta</option>
+                  <option>> Rp 50 juta</option>
+                  <option>Diskusi dulu</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  class="text-xs text-muted font-medium mb-1.5 block"
+                  data-i18n="form_msg"
+                  >Ceritakan Project Kamu *</label
+                >
+                <textarea
+                  class="input-field"
+                  rows="4"
+                  placeholder="Deskripsikan kebutuhan, fitur yang diinginkan, timeline, dll..."
+                  required
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                class="btn-primary w-full py-3 text-sm flex items-center justify-center gap-2"
+              >
+                <span id="submit-text" data-i18n="form_send">Kirim Pesan</span>
+                <i id="submit-icon" class="fa-solid fa-paper-plane text-xs"></i>
+              </button>
+            </form>
+
+            <div id="form-success" class="hidden text-center py-6">
+              <div
+                class="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center"
+                style="background: rgba(0, 255, 135, 0.1)"
+              >
+                <i class="fa-solid fa-check text-xl accent"></i>
+              </div>
+              <div
+                class="font-display font-bold text-lg mb-2"
+                data-i18n="form_ok_title"
+              >
+                Pesan Terkirim! 🎉
+              </div>
+              <p class="text-muted text-sm" data-i18n="form_ok_sub">
+                Kami akan menghubungi kamu dalam 24 jam. Siap-siap diskusi seru!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA ===================== -->
+    <section class="py-20">
+      <div class="max-w-4xl mx-auto px-5 sm:px-8 text-center reveal">
+        <div
+          class="card-bg border divider rounded-3xl p-10 sm:p-14 relative overflow-hidden"
+        >
+          <div
+            class="shape w-72 h-72 -top-16 -right-16"
+            style="background: rgba(168, 85, 247, 0.1); animation-delay: 0s"
+          ></div>
+          <div
+            class="shape w-56 h-56 -bottom-10 -left-10"
+            style="background: rgba(99, 102, 241, 0.08); animation-delay: 0.5s"
+          ></div>
+          <div class="noise-overlay"></div>
+          <div class="relative z-10">
+            <div class="inline-flex items-center gap-2 mb-6">
+              <div class="glow-dot"></div>
+              <span class="text-sm text-muted">Available for projects</span>
+            </div>
+            <h2
+              class="font-display font-extrabold text-4xl sm:text-6xl leading-tight mb-6"
+            >
+              <span data-i18n="cta_h2a">Ready to Build</span><br /><span
+                class="gradient-text"
+                data-i18n="cta_h2b"
+                >Something Cool?</span
+              >
+            </h2>
+            <p class="text-muted mb-8 max-w-xl mx-auto" data-i18n="cta_sub">
+              Jangan biarkan ide bagus hanya jadi rencana. Hubungi kami sekarang
+              dan mulai wujudkan produk digital impian Anda.
+            </p>
+            <div class="flex flex-wrap gap-3 justify-center">
+              <a
+                href="#contact"
+                class="btn-primary px-8 py-3.5 inline-flex items-center gap-2"
+              >
+                <span data-i18n="cta_btn1">Mulai Project</span>
+                <i class="fa-solid fa-rocket text-xs"></i>
+              </a>
+              <a
+                href="https://wa.me/6281234567890"
+                target="_blank"
+                class="btn-outline px-8 py-3.5 inline-flex items-center gap-2"
+              >
+                <i class="fa-brands fa-whatsapp text-green-400"></i> Chat
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="border-t divider py-10">
+      <div class="max-w-6xl mx-auto px-5 sm:px-8">
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-6"
+        >
+          <!-- Logo -->
+          <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg overflow-hidden flex-shrink-0">
+              <img
+                src="logo.png"
+                alt="akronymstudio logo"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <span class="logo-text">akronymstudio</span>
+          </div>
+
+          <!-- Links -->
+          <div class="flex gap-6 text-sm text-muted">
+            <a href="#about" class="hover:text-current transition-colors"
+              >About</a
+            >
+            <a href="#services" class="hover:text-current transition-colors"
+              >Services</a
+            >
+            <a href="#work" class="hover:text-current transition-colors"
+              >Work</a
+            >
+            <a href="#contact" class="hover:text-current transition-colors"
+              >Contact</a
+            >
+          </div>
+
+          <!-- Copyright -->
+          <div class="text-xs text-muted text-center sm:text-right">
+            <span data-i18n="footer_copy">© 2025 akronymstudio. </span> Based in
+            Jakarta 🇮🇩
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script
+      data-cfasync="false"
+      src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"
+    ></script>
+    <script>
+      /* ======= THEME ======= */
+      const html = document.documentElement;
+      const themeIcon = document.getElementById("theme-icon");
+      const themeToggle = document.getElementById("theme-toggle");
+
+      function setTheme(t) {
+        html.className = t;
+        localStorage.setItem("theme", t);
+        if (t === "dark") {
+          themeIcon.className = "fa-solid fa-moon text-sm accent";
+          themeToggle.style.borderColor = "#1e1e1e";
+        } else {
+          themeIcon.className = "fa-solid fa-sun text-sm accent";
+          themeToggle.style.borderColor = "#e5e5e0";
+        }
+      }
+
+      function toggleTheme() {
+        setTheme(html.className === "dark" ? "light" : "dark");
+      }
+
+      // Init theme
+      const saved = localStorage.getItem("theme") || "dark";
+      setTheme(saved);
+
+      /* ======= MOBILE MENU ======= */
+      const mobileMenu = document.getElementById("mobile-menu");
+      let menuOpen = false;
+
+      function toggleMenu() {
+        menuOpen = !menuOpen;
+        mobileMenu.classList.toggle("open", menuOpen);
+      }
+
+      function closeMenu() {
+        menuOpen = false;
+        mobileMenu.classList.remove("open");
+      }
+
+      /* ======= CURSOR BLOB ======= */
+      const blob = document.getElementById("cursor-blob");
+      document.addEventListener("mousemove", (e) => {
+        blob.style.left = e.clientX + "px";
+        blob.style.top = e.clientY + "px";
+      });
+
+      /* ======= SCROLL REVEAL ======= */
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document
+        .querySelectorAll(".reveal")
+        .forEach((el) => observer.observe(el));
+
+      /* ======= SKILL BARS ======= */
+      const skillObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const items = entry.target.querySelectorAll(".skill-item");
+              items.forEach((item, i) => {
+                const pct = item.dataset.skill;
+                const fill = item.querySelector(".skill-bar-fill");
+                setTimeout(() => {
+                  fill.style.width = pct + "%";
+                }, i * 120);
+              });
+              skillObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.3 },
+      );
+
+      document
+        .querySelectorAll("#skills")
+        .forEach((s) => skillObserver.observe(s));
+
+      /* ======= COUNTER ======= */
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counters = entry.target.querySelectorAll(".counter");
+              counters.forEach((counter) => {
+                const target = parseInt(counter.dataset.target);
+                const suffix = counter.innerHTML
+                  .replace(/\d+/, "")
+                  .replace("0", "");
+                let current = 0;
+                const step = Math.ceil(target / 30);
+                const timer = setInterval(() => {
+                  current = Math.min(current + step, target);
+                  counter.innerHTML = current + suffix;
+                  if (current >= target) clearInterval(timer);
+                }, 50);
+              });
+              counterObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.5 },
+      );
+
+      document
+        .querySelectorAll("#home")
+        .forEach((s) => counterObserver.observe(s));
+
+      /* ======= FAQ ======= */
+      function toggleFaq(btn) {
+        const content = btn.nextElementSibling;
+        const icon = btn.querySelector(".faq-icon");
+        const isOpen =
+          content.style.maxHeight && content.style.maxHeight !== "0px";
+
+        // Close all
+        document.querySelectorAll(".faq-content").forEach((c) => {
+          c.style.maxHeight = "0px";
+          c.style.paddingBottom = "0";
+        });
+        document
+          .querySelectorAll(".faq-icon")
+          .forEach((i) => (i.style.transform = ""));
+
+        if (!isOpen) {
+          content.style.maxHeight = content.scrollHeight + "px";
+          icon.style.transform = "rotate(180deg)";
+        }
+      }
+
+      /* ======= FORM SUBMIT ======= */
+      function handleSubmit(e) {
+        e.preventDefault();
+        const btn = e.target.querySelector("button[type=submit]");
+        const text = document.getElementById("submit-text");
+        const icon = document.getElementById("submit-icon");
+
+        text.textContent = "Mengirim...";
+        icon.className = "fa-solid fa-spinner fa-spin text-xs";
+        btn.disabled = true;
+
+        setTimeout(() => {
+          document.getElementById("contact-form").classList.add("hidden");
+          document.getElementById("form-success").classList.remove("hidden");
+        }, 1800);
+      }
+
+      /* ======= ACTIVE NAV ======= */
+      const sections = document.querySelectorAll("section[id]");
+      const navLinks = document.querySelectorAll(".nav-link");
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((s) => {
+          if (window.scrollY >= s.offsetTop - 100) current = s.id;
+        });
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + current)
+            link.classList.add("active");
+        });
+      });
+
+      /* ======= i18n LANGUAGE SYSTEM ======= */
+      const translations = {
+        id: {
+          nav_about: `Tentang`,
+          nav_services: `Layanan`,
+          nav_work: `Karya`,
+          nav_skills: `Keahlian`,
+          nav_contact: `Kontak`,
+          nav_hire: `Hire Me`,
+
+          hero_badge: `Open for projects — Based in Jakarta 🇮🇩`,
+          hero_h1a: `We Build`,
+          hero_h1b: `Web Apps`,
+          hero_h1c: `That Matter.`,
+          hero_desc: `akronymstudio adalah software house fokus pada pengembangan web application modern. Clean code, pixel-perfect design, performa tinggi.`,
+          hero_cta1: `Lihat Karya Kami`,
+          hero_cta2: `Konsultasi Gratis`,
+          stat1: `Projects Done`,
+          stat2: `Satisfaction Rate`,
+          stat3: `Experience`,
+          card_label1: `Dashboard Analytics`,
+          badge_verified: `Verified Studio ✦`,
+          badge_fast: `Fast Delivery`,
+
+          about_badge: `Tentang Kami`,
+          about_h2a: `Small Studio,`,
+          about_h2b: `Big Impact.`,
+          about_p1: `akronymstudio adalah software house independen berbasis di Jakarta yang didirikan oleh seorang Software Engineer lulusan Teknologi Informasi. Kami percaya bahwa produk digital yang baik bukan hanya soal kode — tapi tentang <strong style="color:inherit;font-weight:600">pengalaman</strong> yang diciptakan untuk penggunanya.`,
+          about_p2: `Kami fokus pada pengembangan web application yang modern, scalable, dan benar-benar berfungsi untuk bisnis Anda. Setiap proyek dikerjakan dengan penuh dedikasi, mulai dari konsep hingga deployment.`,
+          about_p3: `Di luar layar, kami menjalani hidup autentik — suka ngebut di aspal Jakarta dengan Kawasaki W175, percaya bahwa karakter yang kuat — di motor maupun di produk — selalu bicara sendiri. 🏍️`,
+          val1_sub: `UI yang indah & intuitif`,
+          val2_sub: `Fast loading, optimized`,
+          val3_sub: `Maintainable & scalable`,
+          val4_sub: `Update progress real-time`,
+
+          svc_badge: `Layanan Kami`,
+          svc_h2a: `Apa yang`,
+          svc_h2b: `Kami Bisa`,
+          svc1_desc: `Bangun web application dari nol — dari SPA, dashboard, marketplace, sampai platform kompleks.`,
+          svc2_desc: `REST API, database design, authentication, dan backend yang solid untuk mendukung front-end Anda.`,
+          svc3_desc: `Desain interface yang cantik, user-friendly, dan konversi tinggi. Figma prototyping included.`,
+          svc4_desc: `Website yang tampil sempurna di semua ukuran layar — mobile, tablet, desktop, widescreen.`,
+          svc5_desc: `Speed optimization, SEO teknis, Lighthouse score improvement — buat web Anda terbang.`,
+          svc6_desc: `Deployment ke cloud, CI/CD setup, dan maintenance ongoing agar web Anda selalu up & running.`,
+
+          port_sub: `Beberapa project yang kami kerjakan — dari personal project hingga client work.`,
+          proj1_desc: `Platform analytics real-time untuk monitoring bisnis. Data visualization interaktif, export report.`,
+          proj2_desc: `Toko online lengkap dengan manajemen produk, cart, payment gateway, dan order tracking.`,
+          proj3_desc: `Sistem reservasi online dengan kalender interaktif, notifikasi otomatis, dan manajemen jadwal.`,
+          proj4_desc: `Sistem manajemen pelanggan dengan pipeline sales, activity tracking, dan reporting.`,
+          proj5_desc: `Platform blogging dengan CMS custom, rich text editor, kategori, tag, dan SEO optimization.`,
+          proj6_title: `Project Berikutnya?`,
+          proj6_desc: `Spot ini bisa jadi milik Anda. Mari diskusikan ide project Anda dan wujudkan bersama kami.`,
+          proj6_cta: `Mulai Diskusi`,
+
+          sk_h2a: `Tools &`,
+          sk_h2b: `Keahlian`,
+          hw_h2a: `How We`,
+          hw_h2b: `Work`,
+          step1_title: `Discovery & Konsultasi`,
+          step1_desc: `Pahami kebutuhan, target user, dan tujuan bisnis Anda.`,
+          step2_title: `Design & Prototyping`,
+          step2_desc: `Wireframe, UI design di Figma, dan revisi sampai puas.`,
+          step3_title: `Development & Testing`,
+          step3_desc: `Build dengan clean code, progress update rutin, testing menyeluruh.`,
+          step4_title: `Launch & Support`,
+          step4_desc: `Deploy, monitoring, dan dukungan pasca-launch agar semua berjalan mulus.`,
+
+          testi_h2a: `Kata Mereka`,
+          testi_h2b: `Tentang Kami`,
+          testi1: `"Dashboard yang dibuatkan akronymstudio luar biasa. Clean, cepat, dan sangat mudah dipahami oleh tim kami. Recommended banget!"`,
+          testi2: `"Komunikasinya enak banget, selalu update progress. Hasil akhirnya jauh melampaui ekspektasi saya. Desainnya modern dan responsif!"`,
+          testi3: `"Deadline terpenuhi, kode rapih, dan ada masa garansi setelah launch. Beda banget sama developer lain yang pernah saya hire."`,
+
+          faq_h2a: `Pertanyaan`,
+          faq_h2b: `Umum`,
+          faq1_q: `Berapa estimasi biaya untuk membuat web app?`,
+          faq1_a: `Biaya sangat bervariasi tergantung kompleksitas project. Landing page sederhana mulai dari Rp 1–3 juta, web app menengah Rp 5–20 juta, dan platform kompleks bisa lebih. Konsultasi gratis untuk estimasi yang lebih akurat sesuai kebutuhan Anda.`,
+          faq2_q: `Berapa lama waktu pengerjaan?`,
+          faq2_a: `Tergantung scope. Landing page 3–7 hari kerja. Web app standar 2–6 minggu. Platform besar 2–4 bulan. Kami selalu memberikan timeline yang realistis di awal project dan update progres secara berkala.`,
+          faq3_q: `Apakah ada garansi setelah project selesai?`,
+          faq3_a: `Ya! Setiap project mendapatkan garansi bug fixing 30 hari setelah launch tanpa biaya tambahan. Kami juga menyediakan layanan maintenance dan update ongoing jika dibutuhkan.`,
+          faq4_q: `Saya sudah punya desain, bisa langsung develop?`,
+          faq4_a: `Tentu bisa! Kami bisa langsung implement desain yang sudah ada (Figma, XD, atau referensi visual lainnya). Kalau belum ada desain pun tidak masalah — kami handle dari awal.`,
+          faq5_q: `Bagaimana sistem pembayarannya?`,
+          faq5_a: `Umumnya DP 50% di awal untuk mulai pengerjaan, dan pelunasan 50% setelah project selesai dan disetujui sebelum serah terima source code. Bisa diskusi untuk skema yang lebih fleksibel.`,
+
+          contact_h2a: `Punya Ide?`,
+          contact_h2b: `Let's Talk.`,
+          contact_sub: `Ceritakan project Anda dan kami akan bantu wujudkan. Konsultasi pertama selalu gratis, tanpa komitmen.`,
+          form_title: `Kirim Pesan 📩`,
+          form_name: `Nama Lengkap *`,
+          form_email: `Email *`,
+          form_type: `Jenis Project`,
+          form_budget: `Budget Estimasi`,
+          form_msg: `Ceritakan Project Kamu *`,
+          form_send: `Kirim Pesan`,
+          form_ok_title: `Pesan Terkirim! 🎉`,
+          form_ok_sub: `Kami akan menghubungi kamu dalam 24 jam. Siap-siap diskusi seru!`,
+
+          cta_h2a: `Ready to Build`,
+          cta_h2b: `Something Cool?`,
+          cta_sub: `Jangan biarkan ide bagus hanya jadi rencana. Hubungi kami sekarang dan mulai wujudkan produk digital impian Anda.`,
+          cta_btn1: `Mulai Project`,
+
+          footer_copy: `© 2025 akronymstudio.`,
+        },
+
+        en: {
+          nav_about: `About`,
+          nav_services: `Services`,
+          nav_work: `Work`,
+          nav_skills: `Skills`,
+          nav_contact: `Contact`,
+          nav_hire: `Hire Me`,
+
+          hero_badge: `Open for projects — Based in Jakarta 🇮🇩`,
+          hero_h1a: `We Build`,
+          hero_h1b: `Web Apps`,
+          hero_h1c: `That Matter.`,
+          hero_desc: `akronymstudio is a software house focused on modern web application development. Clean code, pixel-perfect design, high performance.`,
+          hero_cta1: `View Our Work`,
+          hero_cta2: `Free Consultation`,
+          stat1: `Projects Done`,
+          stat2: `Satisfaction Rate`,
+          stat3: `Experience`,
+          card_label1: `Analytics Dashboard`,
+          badge_verified: `Verified Studio ✦`,
+          badge_fast: `Fast Delivery`,
+
+          about_badge: `About Us`,
+          about_h2a: `Small Studio,`,
+          about_h2b: `Big Impact.`,
+          about_p1: `akronymstudio is an independent software house based in Jakarta, founded by a Software Engineer with a degree in Information Technology. We believe a great digital product is not just about code — it's about the <strong style="color:inherit;font-weight:600">experience</strong> it creates for its users.`,
+          about_p2: `We focus on building modern, scalable web applications that truly work for your business. Every project is handled with full dedication, from concept to deployment.`,
+          about_p3: `Off-screen, we live authentically — riding the streets of Jakarta on a Kawasaki W175, believing that strong character — on the road and in products — always speaks for itself. 🏍️`,
+          val1_sub: `Beautiful & intuitive UI`,
+          val2_sub: `Fast loading, optimized`,
+          val3_sub: `Maintainable & scalable`,
+          val4_sub: `Real-time progress updates`,
+
+          svc_badge: `Our Services`,
+          svc_h2a: `What We`,
+          svc_h2b: `Can Do`,
+          svc1_desc: `Build web applications from scratch — SPAs, dashboards, marketplaces, to complex platforms.`,
+          svc2_desc: `REST APIs, database design, authentication, and a solid backend to power your front-end.`,
+          svc3_desc: `Beautiful, user-friendly interfaces with high conversion rates. Figma prototyping included.`,
+          svc4_desc: `Websites that look perfect on every screen size — mobile, tablet, desktop, widescreen.`,
+          svc5_desc: `Speed optimization, technical SEO, Lighthouse score improvement — make your web fly.`,
+          svc6_desc: `Cloud deployment, CI/CD setup, and ongoing maintenance so your web stays up & running.`,
+
+          port_sub: `Some of the projects we have worked on — from personal projects to client work.`,
+          proj1_desc: `Real-time analytics platform for business monitoring. Interactive data visualization, report export.`,
+          proj2_desc: `Full-featured online store with product management, cart, payment gateway, and order tracking.`,
+          proj3_desc: `Online reservation system with interactive calendar, automated notifications, and schedule management.`,
+          proj4_desc: `Customer management system with sales pipeline, activity tracking, and reporting.`,
+          proj5_desc: `Blogging platform with custom CMS, rich text editor, categories, tags, and SEO optimization.`,
+          proj6_title: `Your Next Project?`,
+          proj6_desc: `This spot could be yours. Let's discuss your project idea and build it together.`,
+          proj6_cta: `Start a Discussion`,
+
+          sk_h2a: `Tools &`,
+          sk_h2b: `Expertise`,
+          hw_h2a: `How We`,
+          hw_h2b: `Work`,
+          step1_title: `Discovery & Consultation`,
+          step1_desc: `Understand your needs, target users, and business goals.`,
+          step2_title: `Design & Prototyping`,
+          step2_desc: `Wireframes, UI design in Figma, and revisions until you're satisfied.`,
+          step3_title: `Development & Testing`,
+          step3_desc: `Built with clean code, regular progress updates, thorough testing.`,
+          step4_title: `Launch & Support`,
+          step4_desc: `Deployment, monitoring, and post-launch support to keep everything running smoothly.`,
+
+          testi_h2a: `What They Say`,
+          testi_h2b: `About Us`,
+          testi1: `"The dashboard built by akronymstudio is outstanding. Clean, fast, and very easy for our team to understand. Highly recommended!"`,
+          testi2: `"Great communication, always updating progress. The final result far exceeded my expectations. Modern and responsive design!"`,
+          testi3: `"Deadline met, clean code, and a warranty period after launch. Very different from other developers I've hired before."`,
+
+          faq_h2a: `Frequently`,
+          faq_h2b: `Asked`,
+          faq1_q: `How much does it cost to build a web app?`,
+          faq1_a: `Costs vary greatly depending on project complexity. A simple landing page starts from around IDR 1–3M, a mid-range web app IDR 5–20M, and complex platforms can be more. Free consultation for a more accurate estimate.`,
+          faq2_q: `How long does development take?`,
+          faq2_a: `Depends on scope. Landing page: 3–7 business days. Standard web app: 2–6 weeks. Large platform: 2–4 months. We always give a realistic timeline upfront and provide regular progress updates.`,
+          faq3_q: `Is there a warranty after the project is done?`,
+          faq3_a: `Yes! Every project comes with a 30-day bug fix warranty after launch at no extra charge. We also offer ongoing maintenance and update services if needed.`,
+          faq4_q: `I already have a design, can you develop it directly?`,
+          faq4_a: `Absolutely! We can implement your existing design (Figma, XD, or any visual reference). If you don't have a design yet, no problem — we handle everything from the start.`,
+          faq5_q: `How does the payment system work?`,
+          faq5_a: `Typically a 50% down payment upfront to start, and the remaining 50% upon project completion and approval before source code handover. We can discuss more flexible arrangements too.`,
+
+          contact_h2a: `Have an Idea?`,
+          contact_h2b: `Let's Talk.`,
+          contact_sub: `Tell us about your project and we'll help make it happen. First consultation is always free, no commitment.`,
+          form_title: `Send a Message 📩`,
+          form_name: `Full Name *`,
+          form_email: `Email *`,
+          form_type: `Project Type`,
+          form_budget: `Estimated Budget`,
+          form_msg: `Tell Us About Your Project *`,
+          form_send: `Send Message`,
+          form_ok_title: `Message Sent! 🎉`,
+          form_ok_sub: `We'll get back to you within 24 hours. Get ready for an exciting discussion!`,
+
+          cta_h2a: `Ready to Build`,
+          cta_h2b: `Something Cool?`,
+          cta_sub: `Don't let a great idea stay just a plan. Contact us now and start building your dream digital product.`,
+          cta_btn1: `Start a Project`,
+
+          footer_copy: `© 2025 akronymstudio.`,
+        },
+      };
+
+      let currentLang = "id";
+
+      function detectLang() {
+        const saved = localStorage.getItem("lang");
+        if (saved) return saved;
+        const browser = navigator.language || navigator.userLanguage || "id";
+        return browser.toLowerCase().startsWith("id") ? "id" : "en";
+      }
+
+      function applyLang(lang) {
+        currentLang = lang;
+        localStorage.setItem("lang", lang);
+
+        const t = translations[lang];
+
+        // Apply to all data-i18n elements (innerHTML to support HTML tags in content)
+        document.querySelectorAll("[data-i18n]").forEach((el) => {
+          const key = el.getAttribute("data-i18n");
+          if (t[key] !== undefined) el.innerHTML = t[key];
+        });
+
+        // Update lang toggle label
+        document.getElementById("lang-label").textContent =
+          lang === "id" ? "ID" : "EN";
+
+        // Update html lang attr
+        document.documentElement.lang = lang === "id" ? "id" : "en";
+
+        // Animate toggle button briefly
+        const btn = document.getElementById("lang-toggle");
+        btn.style.transform = "scale(0.9)";
+        setTimeout(() => {
+          btn.style.transform = "scale(1)";
+        }, 150);
+      }
+
+      function toggleLang() {
+        applyLang(currentLang === "id" ? "en" : "id");
+      }
+
+      // Init on load
+      applyLang(detectLang());
+
+      /* ======= HERO REVEAL ======= */
+      document.querySelectorAll(".reveal").forEach((el, i) => {
+        const delay = parseFloat(el.style.animationDelay || "0") * 1000;
+        setTimeout(() => el.classList.add("visible"), delay + 100);
+      });
+    </script>
+
+    <!-- Floating WhatsApp Button -->
+    <a
+      href="https://wa.me/6281234567890"
+      target="_blank"
+      id="wa-float"
+      title="Chat via WhatsApp"
+      style="
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        z-index: 999;
+        width: 52px;
+        height: 52px;
+        background: #25d366;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
+        transition:
+          transform 0.25s ease,
+          box-shadow 0.25s ease;
+        text-decoration: none;
+      "
+      onmouseover="
+        this.style.transform = 'scale(1.12)';
+        this.style.boxShadow = '0 6px 28px rgba(37,211,102,0.6)';
+      "
+      onmouseout="
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 4px 20px rgba(37,211,102,0.45)';
+      "
+      ><i
+        class="fa-brands fa-whatsapp"
+        style="font-size: 26px; color: #fff; line-height: 1"
+      ></i
+    ></a>
+    <style>
+      @keyframes wa-ping {
+        0% {
+          box-shadow:
+            0 4px 20px rgba(37, 211, 102, 0.45),
+            0 0 0 0 rgba(37, 211, 102, 0.4);
+        }
+        70% {
+          box-shadow:
+            0 4px 20px rgba(37, 211, 102, 0.45),
+            0 0 0 14px rgba(37, 211, 102, 0);
+        }
+        100% {
+          box-shadow:
+            0 4px 20px rgba(37, 211, 102, 0.45),
+            0 0 0 0 rgba(37, 211, 102, 0);
+        }
+      }
+      #wa-float {
+        animation: wa-ping 2.5s ease-in-out infinite;
+      }
+    </style>
+  </body>
+</html>
